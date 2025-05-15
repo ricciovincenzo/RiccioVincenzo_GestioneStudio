@@ -15,9 +15,6 @@ int dataInIntervallo(Data data, Data inizio, Data fine);
 void statisticheStatoAttivita(Lista lista, FILE* fp);
 
 //Genera un report delle attività in una settimana specificata
-void generaReportSettimanale(Lista lista, 
-    int g_inizio, int m_inizio, int a_inizio,
-    int g_fine, int m_fine, int a_fine,
-    const char* nome_file);
+void generaReportSettimanale(Lista lista, Data inizio, Data fine, const char* nome_file);
     
 #endif

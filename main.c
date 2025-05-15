@@ -6,20 +6,25 @@
 
 int main() {
     Data oggi;
-    printf("Inserisci data odierna (gg mm aaaa):\n");
+    printf("--- GESTIONE STUDIO ---\n");
+    do{
+    printf("Inserisci data odierna (gg/mm/aaaa):\n");
     printf("Giorno: ");
     scanf("%d", &oggi.giorno);
     printf("Mese: ");
     scanf("%d", &oggi.mese);
     printf("Anno: ");
     scanf("%d", &oggi.anno);
-    Lista lista = NULL;  // Inizializzazione della lista vuota
+    //Verifica la validità della data
+    if (!dataValida(oggi)) {
+                    printf("Data non valida!\n");
+                }
+            } while (!dataValida(oggi)); 
+    Lista lista = NULL;  //Inizializzazione della lista vuota
 
-    printf("Benvenuto nel sistema di gestione delle attività di studio!\n");
+    mostraMenu(lista, oggi);  //Avvia il menu interattivo
 
-    mostraMenu(lista, oggi);  // Avvia il menu interattivo
-
-    liberaLista(lista); // Libera la memoria allocata
+    liberaLista(lista); //Libera la memoria allocata
 
     printf("Programma terminato.\n");
     return 0;

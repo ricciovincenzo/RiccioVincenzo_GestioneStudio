@@ -1,6 +1,7 @@
 //report.c
 #include <stdio.h>
 #include "attivita.h"
+#include "attivita.h"
 #include "lista.h"
 #include "report.h"
 
@@ -54,10 +55,7 @@ void statisticheStatoAttivita(Lista lista, FILE* fp) {
     fprintf(fp, "Attività in ritardo: %d\n", in_ritardo);
 }
 //Genera un file di report delle attività in una settimana specificata
-void generaReportSettimanale(Lista lista, 
-    int g_inizio, int m_inizio, int a_inizio,
-    int g_fine, int m_fine, int a_fine,
-    const char* nome_file) {
+void generaReportSettimanale(Lista lista, Data data_inizio, Data data_fine, const char* nome_file) {
 
     FILE* fp = fopen(nome_file, "w");
     if (!fp) {
@@ -65,13 +63,9 @@ void generaReportSettimanale(Lista lista,
         return;
     }
 
-    Data data_inizio = {g_inizio, m_inizio, a_inizio};
-    Data data_fine = {g_fine, m_fine, a_fine};
-
     fprintf(fp, "Report settimanale delle attività:\n");
-    fprintf(fp, "Periodo: %02d/%02d/%04d - %02d/%02d/%04d\n",
-            g_inizio, m_inizio, a_inizio, g_fine, m_fine, a_fine);
-
+    fprintf(fp, "Periodo: %d/%d/%d - %d/%d/%d\n", data_inizio.giorno, data_inizio.mese, data_inizio.anno, data_fine.giorno, data_fine.mese, data_fine.anno);
+    fprintf(fp, "-------------------------\n");
     Nodo* corrente = lista;
     int trovate = 0;
 

@@ -21,6 +21,8 @@ Lista inserisciInTesta(Lista l, Attivita* att);
 Lista inserisciInCoda(Lista l, Attivita* att);
 //stampa la lista
 void stampaLista(const Lista l, Data oggi);
+//Restituisce la lunghezza della lista
+int lunghezzaLista(Nodo* testa);
 //libera la memoria allocata per la lista
 void liberaLista(Lista l);
 

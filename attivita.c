@@ -42,13 +42,29 @@ void stampaAttivita(Attivita* att, Data oggi) {
            || (att->scadenza.mese == oggi.mese && att->scadenza.giorno < oggi.giorno)
          )))
         {
-            att->stato = IN_RITARDO;
+            att->stato = 2; // in ritardo
         } else {
-            att->stato = IN_CORSO;
+            att->stato = 0; // in corso
         }
     }
 
-    // stampa semplice
+       char* priorita_str;
+    switch (att->priorita) {
+        case BASSA: priorita_str = "Bassa"; break;
+        case MEDIA: priorita_str = "Media"; break;
+        case ALTA:  priorita_str = "Alta";  break;
+        default:    priorita_str = "Sconosciuta"; break;
+    }
+
+    char* stato_str;
+    switch (att->stato) {
+        case IN_CORSO:   stato_str = "In corso";    break;
+        case COMPLETATA: stato_str = "Completata";  break;
+        case IN_RITARDO: stato_str = "In ritardo";  break;
+        default:         stato_str = "Sconosciuto"; break;
+    }
+
+    //stampa semplice
     printf("Descrizione: %s\n",    att->descrizione);
     printf("Corso: %s\n",          att->corso);
     printf("Scadenza: %02d/%02d/%04d\n",
@@ -56,8 +72,8 @@ void stampaAttivita(Attivita* att, Data oggi) {
            att->scadenza.mese,
            att->scadenza.anno);
     printf("Tempo stimato: %d ore\n", att->tempo_stimato);
-    printf("Priorità (0=bassa,1=media,2=alta): %d\n", att->priorita);
-    printf("Stato   (0=in corso,1=completata,2=in ritardo): %d\n\n", att->stato);
+    printf("Priorità: %s\n", priorita_str);
+    printf("Stato: %s\n", stato_str);
 }
 
 int dataValida(Data d) {

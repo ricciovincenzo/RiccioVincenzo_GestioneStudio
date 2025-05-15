@@ -43,12 +43,26 @@ Lista inserisciInCoda(Lista l, Attivita* att) {
 
 // Funzione per stampare la lista
 void stampaLista(const Lista l, Data oggi) {
+    int indice = 1;
     Nodo* corrente = l;
     while (corrente != NULL) {
+        printf("-------------------\n");
+        printf("Attivita' %d:\n", indice++); //Stampa il numero dell'attività
+        printf("\n");
         stampaAttivita(corrente->attivita, oggi); //Stampa l'attività del nodo corrente
         corrente = corrente->prossimoNodo; //Passa al nodo successivo
     }
 }
+//Restituisce la lunghezza della lista
+int lunghezzaLista(Nodo* testa) {
+    int contatore = 0;
+    while (testa != NULL) {
+        contatore++;
+        testa = testa->prossimoNodo; //Passa al nodo successivo
+    }
+    return contatore; //Restituisce la lunghezza della lista
+}
+
 // Funzione per liberare la memoria allocata per la lista
 void liberaLista(Lista l){
     Nodo* corrente = l;

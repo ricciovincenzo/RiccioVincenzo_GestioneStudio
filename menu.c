@@ -8,6 +8,7 @@
 #include "report.h"
 #include "lista.h"
 
+int lunghezza;
 void mostraMenu(Lista lista, Data oggi) {
     int scelta;
     do {
@@ -42,19 +43,20 @@ void mostraMenu(Lista lista, Data oggi) {
                 corso[strcspn(corso, "\n")] = '\0';
 
                 //leggi data di scadenza come tre interi
-                int g, m, a;
+                Data scad;
+                printf("Inserisci la data di scadenza (gg/mm/aaaa):\n");
+                do {
                 printf("Giorno scadenza: ");
-                scanf("%d", &g);
+                scanf("%d", &scad.giorno);
                 printf("Mese scadenza:  ");
-                scanf("%d", &m);
+                scanf("%d", &scad.mese);
                 printf("Anno scadenza:  ");
-                scanf("%d", &a);
+                scanf("%d", &scad.anno);
                 //Verifica il formato corretto della data
-                Data scad = { g, m, a };
                 if (!dataValida(scad)) {
                     printf("Data non valida!\n");
-                     break;
                 }
+            } while (!dataValida(scad)); 
 
                 //leggi resto dei campi
                 printf("Tempo stimato (ore): ");
@@ -77,24 +79,33 @@ void mostraMenu(Lista lista, Data oggi) {
 
             case 2: 
                 printf("Posizione dell'attività da modificare: ");
-                scanf("%d", &posizione);
+                scanf("%d", &posizione-1); //L'utente inserisce la posizione da 1 a n, noi la convertiamo in 0 a n-1
+                //Controlla se la posizione è valida
+                lunghezza = lunghezzaLista(lista);
+                if (posizione < 1 || posizione > lunghezza) {
+                    printf("Posizione non valida! Le attivita sono %d.\n", lunghezza);
+                    break;
+                }
+
                 char desc2[DESCRIZIONE_LEN], corso2[CORSO_LEN];
                 int tempo2, prio2, stat2;
                 printf("Descrizione: ");    scanf(" %99[^\n]", desc2);
                 printf("Corso: ");         scanf(" %49[^\n]", corso2);
-                int g2, m2, a2;
+                //legge data di scadenza come tre interi
+                Data scad2;
+                printf("Inserisci la data di scadenza (gg/mm/aaaa):\n");
+                do {
                 printf("Giorno scadenza: ");
-                scanf("%d", &g2);
+                scanf("%d", &scad2.giorno);
                 printf("Mese scadenza: ");
-                scanf("%d", &m2);
+                scanf("%d", &scad2.mese);
                 printf("Anno scadenza: ");
-                scanf("%d", &a2);
-                Data scad2 = { g2, m2, a2 };
+                scanf("%d", &scad2.anno);
                 //Verifica il formato corretto della data
                 if (!dataValida(scad2)) {
                     printf("Data non valida!\n");
-                     break;
                 }
+                } while (!dataValida(scad2)); 
                 printf("Tempo stimato (ore): ");   scanf("%d", &tempo2);
                 printf("Priorità (0=bassa,1=media,2=alta): "); scanf("%d", &prio2);
                 printf("Stato (0=in corso,1=completata,2=in ritardo): "); scanf("%d", &stat2);
@@ -105,7 +116,13 @@ void mostraMenu(Lista lista, Data oggi) {
     
             case 3:
                 printf("Posizione dell'attività da eliminare: ");
-                scanf("%d", &posizione);
+                scanf("%d", &posizione-1); //L'utente inserisce la posizione da 1 a n, noi la convertiamo in 0 a n-1
+                //Controlla se la posizione è valida
+                lunghezza = lunghezzaLista(lista);
+                if (posizione < 1 || posizione > lunghezza) {
+                    printf("Posizione non valida! Le attivita sono %d.\n", lunghezza);
+                    break;
+                }
                 lista = rimuoviAttivita(lista, posizione);
                 break;
 
@@ -115,7 +132,13 @@ void mostraMenu(Lista lista, Data oggi) {
 
             case 5:
                 printf("Posizione dell'attività da aggiornare: ");
-                scanf("%d", &posizione);
+                scanf("%d", &posizione - 1); //L'utente inserisce la posizione da 1 a n, noi la convertiamo in 0 a n-1
+                //Controlla se la posizione è valida
+                lunghezza = lunghezzaLista(lista);
+                if (posizione < 1 || posizione > lunghezza) {
+                    printf("Posizione non valida! Le attivita sono %d.\n", lunghezza);
+                    break;
+                }
 
                 int nuovoStato;
                 printf("Nuovo stato (0=in corso, 1=completata, 2=in ritardo): ");
@@ -124,13 +147,33 @@ void mostraMenu(Lista lista, Data oggi) {
                 break;
 
             case 6:
-                int g_inizio, m_inizio, a_inizio;
-                int g_fine, m_fine, a_fine;
-                printf("Data inizio (gg mm aaaa): ");
-                scanf("%d %d %d", &g_inizio, &m_inizio, &a_inizio);
-                printf("Data fine (gg mm aaaa): ");
-                scanf("%d %d %d", &g_fine, &m_fine, &a_fine);
-                generaReportSettimanale(lista, g_inizio, m_inizio, a_inizio, g_fine, m_fine, a_fine, "report.txt");
+                Data inizio, fine;
+                do{
+                printf("Data inizio (gg/mm/aaaa):\n");
+                printf("Giorno: ");
+                scanf("%d", &inizio.giorno);
+                printf("Mese: ");
+                scanf("%d", &inizio.mese);
+                printf("Anno: ");
+                scanf("%d", &inizio.anno);
+                //Verifica il formato corretto della data
+                if (!dataValida(inizio)) {
+                    printf("Data non valida!\n");
+                }
+                } while (!dataValida(inizio));
+                do{
+                printf("Data fine (gg/mm/aaaa):\n");
+                printf("Giorno: ");
+                scanf("%d", &fine.giorno);
+                printf("Mese: ");
+                scanf("%d", &fine.giorno);
+                printf("Anno: ");
+                scanf("%d", &fine.anno);
+                if (!dataValida(fine)) {
+                    printf("Data non valida!\n");
+                }
+                } while (!dataValida(fine)); //Verifica la validità della data
+                generaReportSettimanale(lista, inizio, fine, "report.txt");
                 break;
 
             case 0:
