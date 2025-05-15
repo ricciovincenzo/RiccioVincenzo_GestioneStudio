@@ -5,14 +5,6 @@
 #include "lista.h"
 #include "report.h"
 
-//Converte una stringa in intero
-static int stringToInt(const char* str, int start, int length){
-    int val = 0;
-    for (int i=0; i<length; i++){
-        val = val*10 + (str[start+i] - '0');
-    }
-    return val;
-}
 
 //Confronta se data_str è compresa tra inizio_str e fine_str
 int dataInIntervallo(Data data, Data inizio, Data fine) {

@@ -13,10 +13,10 @@ void mostraMenu(Lista lista, Data oggi) {
     int scelta;
     do {
         printf("\n--- Menu ---\n");
-        printf("1. Aggiungi Attività\n");
-        printf("2. Modifica Attività\n");
-        printf("3. Elimina Attività\n");
-        printf("4. Mostra Attività\n");
+        printf("1. Aggiungi Attivita'\n");
+        printf("2. Modifica Attivita'\n");
+        printf("3. Elimina Attivita'\n");
+        printf("4. Mostra Attivita'\n");
         printf("5. Aggiorna Progresso\n");
         printf("6. Genera Report Settimanale\n");
         printf("0. Esci\n");
@@ -26,7 +26,6 @@ void mostraMenu(Lista lista, Data oggi) {
 
         int posizione;
         Attivita* nuova;
-        char inizio[11], fine[11];
 
         switch (scelta) {
             case 1: {
@@ -61,10 +60,22 @@ void mostraMenu(Lista lista, Data oggi) {
                 //leggi resto dei campi
                 printf("Tempo stimato (ore): ");
                 scanf("%d", &tempo);
-                printf("Priorità (0=bassa,1=media,2=alta): ");
-                scanf("%d", &prio);
+
+                do{
+                    printf("Priorita' (0=bassa,1=media,2=alta): ");
+                    scanf("%d", &prio);
+                    if (prio < 0 || prio > 2){
+                        printf("Errore: priorita' non valida.\n");
+                    }
+                } while (prio < 0 || prio > 2);
+
+                do{
                 printf("Stato (0=in corso,1=completata,2=in ritardo): ");
                 scanf("%d", &stat);
+                if (stat < 0 || stat > 2){
+                    printf("Errore: stato non valido.\n");
+                }
+                } while (stat < 0 || stat > 2);
 
                 //crea e inserisci
                 nuova = creaAttivita(desc, corso, scad, tempo, prio, stat);
@@ -78,11 +89,12 @@ void mostraMenu(Lista lista, Data oggi) {
 }
 
             case 2: 
-                printf("Posizione dell'attività da modificare: ");
-                scanf("%d", &posizione-1); //L'utente inserisce la posizione da 1 a n, noi la convertiamo in 0 a n-1
+                printf("Posizione dell'attivita' da modificare: ");
+                scanf("%d", &posizione); //L'utente inserisce la posizione da 1 a n, noi la convertiamo in 0 a n-1
+                posizione--;
                 //Controlla se la posizione è valida
                 lunghezza = lunghezzaLista(lista);
-                if (posizione < 1 || posizione > lunghezza) {
+                if (posizione < 0 || posizione >= lunghezza) {
                     printf("Posizione non valida! Le attivita sono %d.\n", lunghezza);
                     break;
                 }
@@ -107,19 +119,34 @@ void mostraMenu(Lista lista, Data oggi) {
                 }
                 } while (!dataValida(scad2)); 
                 printf("Tempo stimato (ore): ");   scanf("%d", &tempo2);
-                printf("Priorità (0=bassa,1=media,2=alta): "); scanf("%d", &prio2);
-                printf("Stato (0=in corso,1=completata,2=in ritardo): "); scanf("%d", &stat2);
+
+                do{
+                printf("Priorita' (0=bassa,1=media,2=alta): ");
+                    scanf("%d", &prio2);
+                    if (prio2 < 0 || prio2 > 2){
+                        printf("Errore: priorita' non valida.\n");
+                    }
+                } while (prio2 < 0 || prio2 > 2);
+
+                do{
+                    printf("Stato (0=in corso,1=completata,2=in ritardo): ");
+                    scanf("%d", &stat2);
+                    if (stat2 < 0 || stat2 > 2){
+                        printf("Errore: stato non valido.\n");
+                    }
+                } while (stat2 < 0 || stat2 > 2);
 
                 nuova = creaAttivita(desc2, corso2, scad2, tempo2, prio2, stat2);
                 lista = modificaAttivita(lista, posizione, nuova);
                 break;
     
             case 3:
-                printf("Posizione dell'attività da eliminare: ");
-                scanf("%d", &posizione-1); //L'utente inserisce la posizione da 1 a n, noi la convertiamo in 0 a n-1
+                printf("Posizione dell'attivita' da eliminare: ");
+                scanf("%d", &posizione); //L'utente inserisce la posizione da 1 a n, noi la convertiamo in 0 a n-1
+                posizione--;
                 //Controlla se la posizione è valida
                 lunghezza = lunghezzaLista(lista);
-                if (posizione < 1 || posizione > lunghezza) {
+                if (posizione < 0 || posizione >= lunghezza) {
                     printf("Posizione non valida! Le attivita sono %d.\n", lunghezza);
                     break;
                 }
@@ -127,23 +154,32 @@ void mostraMenu(Lista lista, Data oggi) {
                 break;
 
             case 4:
-                stampaLista(lista, oggi);
+            lunghezza = lunghezzaLista(lista);
+                if (lunghezza > 0)
+                    stampaLista(lista, oggi);
+                else
+                    printf("Non hai inserito nessuna attivita'.\n");
                 break;
 
             case 5:
-                printf("Posizione dell'attività da aggiornare: ");
-                scanf("%d", &posizione - 1); //L'utente inserisce la posizione da 1 a n, noi la convertiamo in 0 a n-1
+                printf("Posizione dell'attivita' da aggiornare: ");
+                scanf("%d", &posizione); //L'utente inserisce la posizione da 1 a n, noi la convertiamo in 0 a n-1
+                posizione--;
                 //Controlla se la posizione è valida
                 lunghezza = lunghezzaLista(lista);
-                if (posizione < 1 || posizione > lunghezza) {
+                if (posizione < 0 || posizione >= lunghezza) {
                     printf("Posizione non valida! Le attivita sono %d.\n", lunghezza);
                     break;
                 }
 
                 int nuovoStato;
-                printf("Nuovo stato (0=in corso, 1=completata, 2=in ritardo): ");
-                scanf("%d", &nuovoStato);
-                lista = aggiornaProgresso(lista, posizione, nuovoStato);
+                do{
+                    printf("Nuovo stato (0=in corso,1=completata,2=in ritardo): ");
+                    scanf("%d", &nuovoStato);
+                    if (nuovoStato < 0 || nuovoStato > 2){
+                        printf("Errore: stato non valido.\n");
+                    }
+                } while (nuovoStato < 0 || nuovoStato > 2);
                 break;
 
             case 6:
