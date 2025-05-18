@@ -2,11 +2,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <time.h>
 #include "gestione.h"
 #include "lista.h"
 #include "attivita.h"
 
+//Crea un nuovo nodo con l'attivita' e lo inserisce nella lista
+//inTesta == 1 in testa, in Testa == 0 in coda
 Lista aggiungiAttivita(Lista l, Attivita* att, int inTesta) {
     Nodo* nuovoNodo = (Nodo*) malloc(sizeof(Nodo));
     if (nuovoNodo == NULL) return l;
@@ -27,6 +28,8 @@ Lista aggiungiAttivita(Lista l, Attivita* att, int inTesta) {
     return l;
 }
 
+//Modifica l'attivita' alla posizione specificata nella lista
+//Libera la vecchia attivita' e assegna la nuovaAtt passata
 Lista modificaAttivita(Lista l, int posizione, Attivita* nuovaAtt) {
     Nodo* corrente = l;
     int i = 0;
@@ -44,6 +47,8 @@ Lista modificaAttivita(Lista l, int posizione, Attivita* nuovaAtt) {
     return l;
 }
 
+//Rimuove e libera l'attivita' alla posizione indicata nella lista
+//Gestisce i casi di rimozione in testa e posizione generica
 Lista rimuoviAttivita(Lista l, int posizione) {
     if (l == NULL) return NULL;
 
@@ -72,6 +77,7 @@ Lista rimuoviAttivita(Lista l, int posizione) {
     return l;
 }
 
+//Aggiorna lo stato dell'attivita' alla posizione indicata nella lista
 Lista aggiornaProgresso(Lista l, int posizione, int nuovoStato) {
     Nodo* corrente = l;
     int i = 0;
@@ -85,6 +91,8 @@ Lista aggiornaProgresso(Lista l, int posizione, int nuovoStato) {
     return l;
 }
 
+//Carica le attivita' da un file di testo formattato e costruisce la lista
+//Ogni attivita' e' composta da una descrizione, corso, data, tempo stimato, priorita' e stato
 Nodo* caricaAttivitaDaFile(const char *nomeFile) {
     FILE *f = fopen(nomeFile, "r");
     if (!f) return NULL;
@@ -116,6 +124,7 @@ Nodo* caricaAttivitaDaFile(const char *nomeFile) {
     return lista;
 }
 
+//Salva la lista delle attivita' in un file di testo con formato leggibile
 void salvaAttivitaSuFile(Lista l, const char *nomeFile) {
     FILE *f = fopen(nomeFile, "w");
     if (!f) return;
@@ -133,6 +142,7 @@ void salvaAttivitaSuFile(Lista l, const char *nomeFile) {
     fclose(f);
 }
 
+//Libera tutta la memoria occupata dalla lista e dalle attivita' associate
 void liberaListaAttivita(Lista l) {
     Nodo* corrente = l;
     while (corrente != NULL) {

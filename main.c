@@ -16,14 +16,14 @@ int main() {
     scanf("%d", &oggi.mese);
     printf("Anno: ");
     scanf("%d", &oggi.anno);
-    //Verifica la validità della data
+    //Verifica la validita' della data
     if (!dataValida(oggi)) {
                     printf("Data non valida!\n");
                 }
             } while (!dataValida(oggi)); 
     Lista lista = NULL;  //Inizializzazione della lista vuota
     
-    lista = caricaAttivitaDaFile("attivita.txt"); //Carica la lista delle attività dal file, se il file è vuoto restituisce un avviso
+    lista = caricaAttivitaDaFile("attivita.txt"); //Carica la lista delle attivita' dal file, se il file e' vuoto restituisce un avviso
     if (lista == NULL){
         printf("Nessuna attivita' trovata.\n");
     }

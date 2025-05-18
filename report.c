@@ -1,12 +1,11 @@
 //report.c
 #include <stdio.h>
 #include "attivita.h"
-#include "attivita.h"
 #include "lista.h"
 #include "report.h"
 
 
-//Confronta se data_str è compresa tra inizio_str e fine_str
+//Confronta se data e' compresa tra inizio e fine
 int dataInIntervallo(Data data, Data inizio, Data fine) {
     if (data.anno < inizio.anno || 
    (data.anno == inizio.anno && data.mese < inizio.mese) || 
@@ -22,7 +21,7 @@ if (data.anno > fine.anno ||
 return 1;
 }
 
-//Stampa le statistiche delle attività in un file
+//Stampa le statistiche delle attivita' in un file
 void statisticheStatoAttivita(Lista lista, FILE* fp) {
     int in_corso = 0, completate = 0, in_ritardo = 0;
 
@@ -42,11 +41,11 @@ void statisticheStatoAttivita(Lista lista, FILE* fp) {
         corrente = corrente->prossimoNodo;
     }
     fprintf(fp, "Statistiche settimanali:\n");
-    fprintf(fp, "Attività in corso: %d\n", in_corso);
-    fprintf(fp, "Attività completate: %d\n", completate);
-    fprintf(fp, "Attività in ritardo: %d\n", in_ritardo);
+    fprintf(fp, "Attivita' in corso: %d\n", in_corso);
+    fprintf(fp, "Attivita' completate: %d\n", completate);
+    fprintf(fp, "Attivita' in ritardo: %d\n", in_ritardo);
 }
-//Genera un file di report delle attività in una settimana specificata
+//Genera un file di report delle attivita' in una settimana specificata
 void generaReportSettimanale(Lista lista, Data data_inizio, Data data_fine, const char* nome_file) {
 
     FILE* fp = fopen(nome_file, "w");
@@ -55,7 +54,7 @@ void generaReportSettimanale(Lista lista, Data data_inizio, Data data_fine, cons
         return;
     }
 
-    fprintf(fp, "Report settimanale delle attività:\n");
+    fprintf(fp, "Report settimanale delle attivita':\n");
     fprintf(fp, "Periodo: %d/%d/%d - %d/%d/%d\n", data_inizio.giorno, data_inizio.mese, data_inizio.anno, data_fine.giorno, data_fine.mese, data_fine.anno);
     fprintf(fp, "-------------------------\n");
     Nodo* corrente = lista;
@@ -65,7 +64,7 @@ void generaReportSettimanale(Lista lista, Data data_inizio, Data data_fine, cons
         if (dataInIntervallo(corrente->attivita->scadenza, data_inizio, data_fine)) {
             fprintf(fp, "Descrizione: %s\n", corrente->attivita->descrizione);
             fprintf(fp, "Corso: %s\n", corrente->attivita->corso);
-            fprintf(fp, "Scadenza: %02d/%02d/%04d\n", 
+            fprintf(fp, "Scadenza: %d/%d/%d\n", 
                 corrente->attivita->scadenza.giorno,
                 corrente->attivita->scadenza.mese,
                 corrente->attivita->scadenza.anno);
@@ -86,7 +85,7 @@ void generaReportSettimanale(Lista lista, Data data_inizio, Data data_fine, cons
                 case IN_RITARDO: stato_str = "In ritardo";  break;
                 default:         stato_str = "Sconosciuto"; break;
             }
-            fprintf(fp, "Priorità: %s\n", priorita_str);
+            fprintf(fp, "Priorita': %s\n", priorita_str);
             fprintf(fp, "Stato: %s\n", stato_str);
             fprintf(fp, "-------------------------\n");
             trovate=1;
@@ -94,7 +93,7 @@ void generaReportSettimanale(Lista lista, Data data_inizio, Data data_fine, cons
         corrente = corrente->prossimoNodo;
     }
     if (trovate==0) {
-        fprintf(fp, "Nessuna attività trovata nel periodo specificato.\n");
+        fprintf(fp, "Nessuna attivita' trovata nel periodo specificato.\n");
     }
 
     statisticheStatoAttivita(lista, fp);

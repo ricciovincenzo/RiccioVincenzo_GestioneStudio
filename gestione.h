@@ -5,25 +5,26 @@
 #include "lista.h"
 #include "attivita.h"
 
-//Aggiunge un'attività alla lista (inTesta = 1 → in testa, 0 → in coda)
+//Funzioni
+//Aggiunge un'attivita' alla lista (inTesta == 1 in testa, in Testa == 0 in coda)
 Lista aggiungiAttivita(Lista l, Attivita* att, int inTesta);
 
-//Modifica l'attività alla posizione specificata
+//Modifica l'attivita' alla posizione indicata con la nuovaAtt
 Lista modificaAttivita(Lista l, int posizione, Attivita* nuovaAtt);
 
-//Rimuove l'attività alla posizione specificata
+//Rimuove l'attivita' alla posizione indicata
 Lista rimuoviAttivita(Lista l, int posizione);
 
-//Aggiorna lo stato (progresso) dell'attività alla posizione specificata
+//Aggiorna lo stato (progresso) dell'attivita' alla posizione indicata con nuovo Stato
 Lista aggiornaProgresso(Lista l, int posizione, int nuovoStato);
 
-//Carica la lista delle attività dal file
+//Carica la lista delle attivita' dal file e restituisce la lista creata
 Lista caricaAttivitaDaFile(const char *nomeFile);
 
-//Salva la lista delle attivita sul file
+//Salva la lista delle attivita su file di testo
 void salvaAttivitaSuFile(Lista l, const char *nomeFile);
 
-//Libera la memoria allocata
+//Libera la memoria allocata dalla lista delle attivita'
 void liberaListaAttivita(Lista l);
 
 #endif
