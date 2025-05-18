@@ -9,7 +9,7 @@
 #include "lista.h"
 
 int lunghezza;
-void mostraMenu(Lista lista, Data oggi) {
+void mostraMenu(Lista *lista, Data oggi) {
     int scelta;
     do {
         printf("\n--- Menu ---\n");
@@ -19,13 +19,12 @@ void mostraMenu(Lista lista, Data oggi) {
         printf("4. Mostra Attivita'\n");
         printf("5. Aggiorna Progresso\n");
         printf("6. Genera Report Settimanale\n");
-        printf("0. Esci\n");
+        printf("0. Salva ed esci\n");
         printf("Scelta: ");
         scanf("%d", &scelta);
         getchar();
 
         int posizione;
-        Attivita* nuova;
 
         switch (scelta) {
             case 1: {
@@ -78,8 +77,8 @@ void mostraMenu(Lista lista, Data oggi) {
                 } while (stat < 0 || stat > 2);
 
                 //crea e inserisci
-                nuova = creaAttivita(desc, corso, scad, tempo, prio, stat);
-                lista = aggiungiAttivita(lista, nuova, 0);
+                Attivita* nuova = creaAttivita(desc, corso, scad, tempo, prio, stat);
+                *lista = aggiungiAttivita(*lista, nuova, 0);
 
                 //svuota eventuale newline rimasto prima del prossimo fgets
                 int _c;
@@ -91,9 +90,10 @@ void mostraMenu(Lista lista, Data oggi) {
             case 2: 
                 printf("Posizione dell'attivita' da modificare: ");
                 scanf("%d", &posizione); //L'utente inserisce la posizione da 1 a n, noi la convertiamo in 0 a n-1
+                getchar(); //pulisce il buffer
                 posizione--;
                 //Controlla se la posizione è valida
-                lunghezza = lunghezzaLista(lista);
+                lunghezza = lunghezzaLista(*lista);
                 if (posizione < 0 || posizione >= lunghezza) {
                     printf("Posizione non valida! Le attivita sono %d.\n", lunghezza);
                     break;
@@ -101,8 +101,15 @@ void mostraMenu(Lista lista, Data oggi) {
 
                 char desc2[DESCRIZIONE_LEN], corso2[CORSO_LEN];
                 int tempo2, prio2, stat2;
-                printf("Descrizione: ");    scanf(" %99[^\n]", desc2);
-                printf("Corso: ");         scanf(" %49[^\n]", corso2);
+                //leggi descrizione
+                printf("Descrizione: ");
+                fgets(desc2, DESCRIZIONE_LEN, stdin);
+                desc2[strcspn(desc2, "\n")] = '\0';
+
+                //leggi corso
+                printf("Corso: ");
+                fgets(corso2, CORSO_LEN, stdin);
+                corso2[strcspn(corso2, "\n")] = '\0';
                 //legge data di scadenza come tre interi
                 Data scad2;
                 printf("Inserisci la data di scadenza (gg/mm/aaaa):\n");
@@ -136,8 +143,8 @@ void mostraMenu(Lista lista, Data oggi) {
                     }
                 } while (stat2 < 0 || stat2 > 2);
 
-                nuova = creaAttivita(desc2, corso2, scad2, tempo2, prio2, stat2);
-                lista = modificaAttivita(lista, posizione, nuova);
+                Attivita* nuova = creaAttivita(desc2, corso2, scad2, tempo2, prio2, stat2);
+                *lista = modificaAttivita(*lista, posizione, nuova);
                 break;
     
             case 3:
@@ -145,18 +152,18 @@ void mostraMenu(Lista lista, Data oggi) {
                 scanf("%d", &posizione); //L'utente inserisce la posizione da 1 a n, noi la convertiamo in 0 a n-1
                 posizione--;
                 //Controlla se la posizione è valida
-                lunghezza = lunghezzaLista(lista);
+                lunghezza = lunghezzaLista(*lista);
                 if (posizione < 0 || posizione >= lunghezza) {
                     printf("Posizione non valida! Le attivita sono %d.\n", lunghezza);
                     break;
                 }
-                lista = rimuoviAttivita(lista, posizione);
+                *lista = rimuoviAttivita(*lista, posizione);
                 break;
 
             case 4:
-            lunghezza = lunghezzaLista(lista);
+            lunghezza = lunghezzaLista(*lista);
                 if (lunghezza > 0)
-                    stampaLista(lista, oggi);
+                    stampaLista(*lista, oggi);
                 else
                     printf("Non hai inserito nessuna attivita'.\n");
                 break;
@@ -166,7 +173,7 @@ void mostraMenu(Lista lista, Data oggi) {
                 scanf("%d", &posizione); //L'utente inserisce la posizione da 1 a n, noi la convertiamo in 0 a n-1
                 posizione--;
                 //Controlla se la posizione è valida
-                lunghezza = lunghezzaLista(lista);
+                lunghezza = lunghezzaLista(*lista);
                 if (posizione < 0 || posizione >= lunghezza) {
                     printf("Posizione non valida! Le attivita sono %d.\n", lunghezza);
                     break;
@@ -180,6 +187,7 @@ void mostraMenu(Lista lista, Data oggi) {
                         printf("Errore: stato non valido.\n");
                     }
                 } while (nuovoStato < 0 || nuovoStato > 2);
+                *lista = aggiornaProgresso(*lista, posizione, nuovoStato);
                 break;
 
             case 6:
@@ -209,10 +217,12 @@ void mostraMenu(Lista lista, Data oggi) {
                     printf("Data non valida!\n");
                 }
                 } while (!dataValida(fine)); //Verifica la validità della data
-                generaReportSettimanale(lista, inizio, fine, "report.txt");
+                generaReportSettimanale(*lista, inizio, fine, "report.txt");
                 break;
 
             case 0:
+                salvaAttivitaSuFile(*lista, "attivita.txt"); //Salva la lista delle attività sul file appena l'utente termina il programma
+                printf("Le attivita' sono state salvate su file.\n");
                 printf("Uscita...\n");
                 break;
 

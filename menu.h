@@ -5,6 +5,6 @@
 #include "lista.h"
 
 // Mostra il menu e gestisce l'interazione con l'utente
-void mostraMenu(Lista lista, Data oggi);
+void mostraMenu(Lista *lista, Data oggi);
 
 #endif

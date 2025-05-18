@@ -1,6 +1,7 @@
 //main.c
 #include <stdio.h>
 #include <stdlib.h>
+#include "gestione.h"
 #include "lista.h"
 #include "menu.h"
 
@@ -21,8 +22,13 @@ int main() {
                 }
             } while (!dataValida(oggi)); 
     Lista lista = NULL;  //Inizializzazione della lista vuota
+    
+    lista = caricaAttivitaDaFile("attivita.txt"); //Carica la lista delle attività dal file, se il file è vuoto restituisce un avviso
+    if (lista == NULL){
+        printf("Nessuna attivita' trovata.\n");
+    }
 
-    mostraMenu(lista, oggi);  //Avvia il menu interattivo
+    mostraMenu(&lista, oggi);  //Avvia il menu interattivo
 
     liberaLista(lista); //Libera la memoria allocata
 

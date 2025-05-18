@@ -1,6 +1,7 @@
 //gestione.c
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <time.h>
 #include "gestione.h"
 #include "lista.h"
@@ -82,6 +83,54 @@ Lista aggiornaProgresso(Lista l, int posizione, int nuovoStato) {
         corrente->attivita->stato = nuovoStato;
     }
     return l;
+}
+
+Nodo* caricaAttivitaDaFile(const char *nomeFile) {
+    FILE *f = fopen(nomeFile, "r");
+    if (!f) return NULL;
+
+    Nodo *lista = NULL;
+    char descrizione[DESCRIZIONE_LEN];
+    char corso[CORSO_LEN];
+    int giorno, mese, anno;
+    int tempo, priorita, stato;
+
+    while (
+        fgets(descrizione, sizeof(descrizione), f) &&
+        fgets(corso, sizeof(corso), f) &&
+        fscanf(f, "%d %d %d\n", &giorno, &mese, &anno) == 3 &&
+        fscanf(f, "%d\n", &tempo) == 1 &&
+        fscanf(f, "%d\n", &priorita) == 1 &&
+        fscanf(f, "%d\n", &stato) == 1
+    ) {
+        //rimozione "\n"
+        descrizione[strcspn(descrizione, "\n")] = '\0';
+        corso[strcspn(corso, "\n")] = '\0';
+
+        Data d = {giorno, mese, anno};
+        Attivita *a = creaAttivita(descrizione, corso, d, tempo, priorita, stato);
+        lista = aggiungiAttivita(lista, a, 0);  //Seleziona l'inserimento in coda (0)
+    }
+
+    fclose(f);
+    return lista;
+}
+
+void salvaAttivitaSuFile(Lista l, const char *nomeFile) {
+    FILE *f = fopen(nomeFile, "w");
+    if (!f) return;
+
+    for (Nodo *corrente = l; corrente != NULL; corrente = corrente->prossimoNodo) {
+        Attivita *a = corrente->attivita;
+        fprintf(f, "%s\n", a->descrizione);
+        fprintf(f, "%s\n", a->corso);
+        fprintf(f, "%d %d %d\n", a->scadenza.giorno, a->scadenza.mese, a->scadenza.anno);
+        fprintf(f, "%d\n", a->tempo_stimato);
+        fprintf(f, "%d\n", a->priorita);
+        fprintf(f, "%d\n", a->stato);
+    }
+
+    fclose(f);
 }
 
 void liberaListaAttivita(Lista l) {
