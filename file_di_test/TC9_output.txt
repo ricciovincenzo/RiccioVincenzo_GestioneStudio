@@ -1,0 +1,21 @@
+Report settimanale delle attivita':
+Periodo: 20/5/2025 - 26/5/2025
+-------------------------
+Descrizione: Lezione1
+Corso: CorsoX
+Scadenza: 21/5/2025
+Tempo stimato: 2 ore
+Priorita': Media
+Stato: In corso
+-------------------------
+Descrizione: Lezione2
+Corso: CorsoX
+Scadenza: 23/5/2025
+Tempo stimato: 3 ore
+Priorita': Alta
+Stato: Completata
+-------------------------
+Statistiche settimanali:
+Attivita' in corso: 1
+Attivita' completate: 1
+Attivita' in ritardo: 0

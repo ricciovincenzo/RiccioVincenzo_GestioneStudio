@@ -45,9 +45,7 @@ void stampaAttivita(Attivita* att, Data oggi) {
          )))
         {
             att->stato = 2; // in ritardo
-        } else {
-            att->stato = 0; // in corso
-        }
+        } 
     }
     
     //Traduce il valore numerico della priorita' in una stringa leggibile

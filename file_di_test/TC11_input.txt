@@ -1,0 +1,13 @@
+Verifica
+Fisica
+20 5
+2025 
+1
+2
+0
+Studio
+Fisica
+21 5 2025
+2
+1
+1

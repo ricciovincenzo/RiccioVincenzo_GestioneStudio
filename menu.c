@@ -88,7 +88,7 @@ void mostraMenu(Lista *lista, Data oggi) {
                 //Pulisce il buffer
                 int _c;
                 while ((_c = getchar()) != '\n' && _c != EOF);
-
+                printf("Attivita' inserita con successo.\n");
                 break;
 }
 
