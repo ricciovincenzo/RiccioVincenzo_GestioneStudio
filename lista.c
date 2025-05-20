@@ -8,17 +8,6 @@
 Lista creaLista() {
     return NULL; //La lista vuota e' rappresentata da NULL
 }
-//Funzione per inserire un'attivita' in testa alla lista
-Lista inserisciInTesta(Lista l, Attivita* att){
-    Nodo* nuovoNodo = (Nodo*)malloc(sizeof(Nodo));
-    if (nuovoNodo == NULL) {
-        printf("Errore di allocazione della memoria\n");
-        return l; //Restituisce la lista originale in caso di errore
-    }
-    nuovoNodo->attivita = att; //Aggiunge la nuova attivita' al nodo
-    nuovoNodo->prossimoNodo = l; //Collega il nuovo nodo alla lista esistente
-    return nuovoNodo; //Restituisce il nuovo nodo come testa
-        }
 
 // Funzione per inserire un'attivita' in coda alla lista
 Lista inserisciInCoda(Lista l, Attivita* att) {

@@ -6,8 +6,8 @@
 #include "attivita.h"
 
 //Funzioni
-//Aggiunge un'attivita' alla lista (inTesta == 1 in testa, in Testa == 0 in coda)
-Lista aggiungiAttivita(Lista l, Attivita* att, int inTesta);
+//Aggiunge un'attivita' in coda alla lista
+Lista aggiungiAttivita(Lista l, Attivita* att);
 
 //Modifica l'attivita' alla posizione indicata con la nuovaAtt
 Lista modificaAttivita(Lista l, int posizione, Attivita* nuovaAtt);

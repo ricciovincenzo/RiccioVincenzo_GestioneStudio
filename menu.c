@@ -83,7 +83,7 @@ void mostraMenu(Lista *lista, Data oggi) {
 
                 //Creazione e aggiunta della nuova attivita' in coda alla lista
                 Attivita* nuova = creaAttivita(desc, corso, scad, tempo, prio, stat);
-                *lista = aggiungiAttivita(*lista, nuova, 0);
+                *lista = aggiungiAttivita(*lista, nuova);
 
                 //Pulisce il buffer
                 int _c;

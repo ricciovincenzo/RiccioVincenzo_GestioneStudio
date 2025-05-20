@@ -7,16 +7,14 @@
 #include "attivita.h"
 
 //Crea un nuovo nodo con l'attivita' e lo inserisce nella lista
-//inTesta == 1 in testa, in Testa == 0 in coda
-Lista aggiungiAttivita(Lista l, Attivita* att, int inTesta) {
+Lista aggiungiAttivita(Lista l, Attivita* att) {
     Nodo* nuovoNodo = (Nodo*) malloc(sizeof(Nodo));
     if (nuovoNodo == NULL) return l;
 
     nuovoNodo->attivita = att;
     nuovoNodo->prossimoNodo = NULL;
 
-    if (inTesta || l == NULL) {
-        nuovoNodo->prossimoNodo = l;
+    if (l == NULL) {
         return nuovoNodo;
     }
 
@@ -117,7 +115,7 @@ Nodo* caricaAttivitaDaFile(const char *nomeFile) {
 
         Data d = {giorno, mese, anno};
         Attivita *a = creaAttivita(descrizione, corso, d, tempo, priorita, stato);
-        lista = aggiungiAttivita(lista, a, 0);  //Seleziona l'inserimento in coda (0)
+        lista = aggiungiAttivita(lista, a);  //Seleziona l'inserimento in coda (0)
     }
 
     fclose(f);
